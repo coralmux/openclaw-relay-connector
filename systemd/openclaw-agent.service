@@ -1,0 +1,14 @@
+[Unit]
+Description=OpenClaw Agent Daemon
+After=network.target
+
+[Service]
+Type=simple
+User=%i
+ExecStart=/usr/local/bin/openclaw-agent run
+Restart=always
+RestartSec=5
+Environment=HOME=/home/%i
+
+[Install]
+WantedBy=multi-user.target

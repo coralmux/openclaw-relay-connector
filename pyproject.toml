@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "openclaw-relay-connector"
+version = "0.1.0"
+description = "Connect OpenClaw Gateway to CoralMux Relay"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "websockets>=13.0",
+    "pyyaml>=6.0",
+    "httpx>=0.27.0",
+    "click>=8.1.0",
+    "cryptography>=43.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.24",
+]
+
+[project.scripts]
+openclaw-relay-connector = "openclaw_agent.main:cli"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/openclaw_agent"]
