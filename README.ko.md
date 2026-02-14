@@ -101,10 +101,41 @@ backend:
 openclaw-relay-connector run
 ```
 
-시스템 서비스로 등록:
+### 서비스 등록 (재부팅 시 자동 시작)
+
+**macOS (launchd):**
 
 ```bash
-# Linux (systemd)
+cat > ~/Library/LaunchAgents/com.coralmux.relay-connector.plist << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.coralmux.relay-connector</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/path/to/venv/bin/openclaw-relay-connector</string>
+        <string>run</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/tmp/openclaw-agent.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/openclaw-agent.log</string>
+</dict>
+</plist>
+EOF
+
+launchctl load ~/Library/LaunchAgents/com.coralmux.relay-connector.plist
+```
+
+**Linux (systemd):**
+
+```bash
 sudo cp systemd/openclaw-relay-connector.service /etc/systemd/system/
 sudo systemctl enable --now openclaw-relay-connector
 ```
