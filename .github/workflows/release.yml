@@ -1,0 +1,75 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            artifact: openclaw-relay-connector-linux-x64
+          - os: ubuntu-24.04-arm
+            artifact: openclaw-relay-connector-linux-arm64
+          - os: macos-latest
+            artifact: openclaw-relay-connector-macos-arm64
+          - os: macos-13
+            artifact: openclaw-relay-connector-macos-x64
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install -e .
+          pip install nuitka ordered-set zstandard
+
+      - name: Build with Nuitka
+        run: |
+          python -m nuitka \
+            --standalone \
+            --onefile \
+            --output-filename=${{ matrix.artifact }} \
+            --assume-yes-for-downloads \
+            src/openclaw_agent/main.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.artifact }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist/
+
+      - name: Prepare binaries
+        run: |
+          mkdir -p release
+          find dist -type f -name 'openclaw-relay-connector-*' -exec cp {} release/ \;
+          chmod +x release/*
+          cd release && for f in *; do sha256sum "$f" >> checksums.txt; done
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release/*
+          generate_release_notes: true
