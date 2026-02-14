@@ -1,0 +1,9 @@
+relay:
+  url: ws://138.2.126.204:8789/ws
+  token: oc_pair_1975b7299a5a2d1107f2fc32404c472c
+
+backend:
+  type: openai
+  openai:
+    api_key: ${OPENAI_API_KEY}
+    model: gpt-4o

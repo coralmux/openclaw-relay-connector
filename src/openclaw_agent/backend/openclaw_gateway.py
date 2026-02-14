@@ -108,7 +108,15 @@ class OpenClawGatewayBackend(AgentBackend):
     async def connect(self):
         """Connect to the Gateway WebSocket and perform the hello handshake."""
         logger.info(f"Connecting to OpenClaw Gateway: {self._url}")
-        self._ws = await websockets.connect(self._url, max_size=5 * 1024 * 1024)
+        # Send Origin header matching the gateway host so origin check passes
+        import urllib.parse
+        parsed = urllib.parse.urlparse(self._url)
+        origin = f"http://{parsed.hostname}:{parsed.port}" if parsed.port else f"http://{parsed.hostname}"
+        self._ws = await websockets.connect(
+            self._url,
+            max_size=5 * 1024 * 1024,
+            origin=origin,
+        )
 
         # Send connect as RPC method (protocol v3)
         req_id = str(uuid.uuid4())
