@@ -202,7 +202,7 @@ def init(config):
 
     template = """\
 relay:
-  url: wss://relay.openclaw.dev/ws
+  url: wss://relay.coralmux.com/ws
   token: ""  # Auto-filled on first run
 
 backend:
