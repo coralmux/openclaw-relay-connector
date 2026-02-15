@@ -12,7 +12,7 @@ import yaml
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_RELAY_URL = "wss://relay.openclaw.dev/ws"
+DEFAULT_RELAY_URL = "wss://relay.coralmux.com/ws"
 DEFAULT_CONFIG_PATH = Path.home() / ".openclaw-agent" / "config.yaml"
 
 VALID_BACKEND_TYPES = {"auto", "openai", "langgraph", "autogen", "crewai", "openclaw"}

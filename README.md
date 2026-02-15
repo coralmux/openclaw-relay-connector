@@ -69,8 +69,8 @@ pip install openclaw-relay-connector
 Or from source:
 
 ```bash
-git clone https://github.com/coralmux/agent.git
-cd agent
+git clone https://github.com/coralmux/openclaw-relay-connector.git
+cd openclaw-relay-connector
 pip install -e .
 ```
 
