@@ -6,3 +6,11 @@ build/
 .venv/
 *.db
 .DS_Store
+.pytest_cache/
+
+# Nuitka build artifacts
+nuitka_entry.py
+nuitka-crash-report.xml
+*.build/
+*.dist/
+*.onefile-build/
