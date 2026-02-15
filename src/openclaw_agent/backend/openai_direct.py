@@ -3,7 +3,13 @@
 import logging
 from typing import AsyncIterator
 
-from openai import AsyncOpenAI
+try:
+    from openai import AsyncOpenAI
+except ImportError:
+    raise ImportError(
+        "OpenAI backend requires the 'openai' package. "
+        "Install it with: pip install openclaw-relay-connector[openai]"
+    )
 
 from .base import AgentBackend
 from ..config import OpenAIConfig

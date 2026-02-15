@@ -66,12 +66,19 @@ sequenceDiagram
 pip install openclaw-relay-connector
 ```
 
+With OpenAI backend support:
+
+```bash
+pip install openclaw-relay-connector[openai]
+```
+
 Or from source:
 
 ```bash
 git clone https://github.com/coralmux/openclaw-relay-connector.git
 cd openclaw-relay-connector
-pip install -e .
+pip install -e .          # OpenClaw backend only
+pip install -e ".[openai]"  # with OpenAI backend
 ```
 
 ### Configure
