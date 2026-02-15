@@ -130,7 +130,7 @@ class OpenClawGatewayBackend(AgentBackend):
                 "mode": "webchat",
             },
             "role": "operator",
-            "scopes": [],
+            "scopes": ["operator.read", "operator.write"],
             "caps": [],
             "auth": {"token": self._token} if self._token else {},
         }
